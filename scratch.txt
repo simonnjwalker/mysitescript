@@ -1,0 +1,123 @@
+https://dev.to/piaomu/scaffold-identity-pages-with-asp-net-core-dear-coder-1e88
+https://docs.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-6.0&tabs=netcore-cli
+https://docs.microsoft.com/en-us/ef/core/cli/dotnet
+
+*********************************
+all steps:
+*********************************
+cd c:\SNJW\code
+rd mp /S /Q
+dotnet new mvc --auth Individual --name mp
+cd mp
+dotnet build
+xcopy c:\SNJW\code\shared\mpuser.cs c:\SNJW\code\mp\Models /E /Y /H /R
+xcopy c:\SNJW\code\shared\ApplicationDbContext.cs c:\SNJW\code\mp\Data /E /Y /H /R
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet aspnet-codegenerator identity -dc mp.Data.ApplicationDbContext --useSqlite -–files "Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.ConfirmEmailChange;Account.ExternalLogin;Account.ForgotPassword;Account.ForgotPasswordConfirmation;Account.Lockout;Account.Login;Account.LoginWith2fa;Account.LoginWithRecoveryCode;Account.Logout;Account.Manage._Layout;Account.Manage._ManageNav;Account.Manage._StatusMessage;Account.Manage.ChangePassword;Account.Manage.DeletePersonalData;Account.Manage.Disable2fa;Account.Manage.DownloadPersonalData;Account.Manage.Email;Account.Manage.EnableAuthenticator;Account.Manage.ExternalLogins;Account.Manage.GenerateRecoveryCodes;Account.Manage.Index;Account.Manage.PersonalData;Account.Manage.ResetAuthenticator;Account.Manage.SetPassword;Account.Manage.ShowRecoveryCodes;Account.Manage.TwoFactorAuthentication;Account.Register;Account.RegisterConfirmation;Account.ResendEmailConfirmation;Account.ResetPassword;Account.ResetPasswordConfirmation"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<mp.Models.mpuser>"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<mp.Models.mpuser>"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\mp.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
+dotnet build
+dotnet ef migrations add SecondMigration
+dotnet build
+dotnet ef database update
+
+dotnet aspnet-codegenerator controller --controllerName project -dc mp.Data.ApplicationDbContext --useSqlite --model project
+
+
+
+
+dotnet ef migrations script
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+
+
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
+
+
+
+dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
+
+
+
+
+
+*********************************
+
+
+*********************************
+
+first check that all of the stuff is installed:
+dotnet tool install -g dotnet-aspnet-codegenerator
+dotnet tool install --global dotnet-ef
+
+
+// step 2 build a new project
+
+cd c:\SNJW\code
+dotnet new mvc --auth Individual --name mp
+cd mp
+dotnet build
+code .
+
+
+{F5 to execute and follow the prompts to install debuggers.  Then close it with SHIFT+F5}
+
+
+create this model as: 
+c:\SNJW\code\mp\Models\mpuser.cs
+
+namespace mp.Models;
+public class mpuser : Microsoft.AspNetCore.Identity.IdentityUser
+{
+
+        public string FirstName = "";
+        public string LastName = "";
+}
+
+
+
+edit the file in:
+c:\SNJW\code\mp\Data\ApplicationDbContext.cs
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+namespace mp.Data;
+public class ApplicationDbContext : IdentityDbContext<Models.mpuser>
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+    }
+}
+
+
+
+
+
+// step 3 get the code gen things
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+
+
+
+//dotnet aspnet-codegenerator identity -dc mp.Models.ApplicationDbContext
+
+If the command completed without errors that should have fixed the “There was an error running the selected code generator” issue and created the necessary Identity Pages under Areas/Identity/Pages.
+
+dotnet aspnet-codegenerator also has the ability to scaffold only specific files versus all the Identity files if you don’t need the full set by passing in the -files parameter followed by the files you want to create.
+
+
+// step 4 scaffold the identity pages
+
+
+dotnet aspnet-codegenerator identity -dc mp.Data.ApplicationDbContext -–files "Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.ConfirmEmailChange;Account.ExternalLogin;Account.ForgotPassword;Account.ForgotPasswordConfirmation;Account.Lockout;Account.Login;Account.LoginWith2fa;Account.LoginWithRecoveryCode;Account.Logout;Account.Manage._Layout;Account.Manage._ManageNav;Account.Manage._StatusMessage;Account.Manage.ChangePassword;Account.Manage.DeletePersonalData;Account.Manage.Disable2fa;Account.Manage.DownloadPersonalData;Account.Manage.Email;Account.Manage.EnableAuthenticator;Account.Manage.ExternalLogins;Account.Manage.GenerateRecoveryCodes;Account.Manage.Index;Account.Manage.PersonalData;Account.Manage.ResetAuthenticator;Account.Manage.SetPassword;Account.Manage.ShowRecoveryCodes;Account.Manage.TwoFactorAuthentication;Account.Register;Account.RegisterConfirmation;Account.ResendEmailConfirmation;Account.ResetPassword;Account.ResetPasswordConfirmation"
+
+
+
+
+
+dotnet ef migrations add CreateIdentitySchema
+dotnet ef database update
