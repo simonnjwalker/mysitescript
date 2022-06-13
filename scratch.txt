@@ -44,8 +44,7 @@ dotnet aspnet-codegenerator controller --controllerName country -dc HospitalCont
 
 
 *********************************
-
-
+Prerequisites
 *********************************
 
 first check that all of the stuff is installed:
@@ -65,9 +64,13 @@ code .
 {F5 to execute and follow the prompts to install debuggers.  Then close it with SHIFT+F5}
 
 
+*********************************
+step 1:
 create this model as: 
-c:\SNJW\code\mp\Models\mpuser.cs
-
+c:\SNJW\code\shared\mpuser.cs
+*********************************
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 namespace mp.Models;
 public class mpuser : Microsoft.AspNetCore.Identity.IdentityUser
 {
@@ -75,11 +78,14 @@ public class mpuser : Microsoft.AspNetCore.Identity.IdentityUser
         public string FirstName = "";
         public string LastName = "";
 }
+*********************************
 
 
-
+*********************************
+step 2:
 edit the file in:
 c:\SNJW\code\mp\Data\ApplicationDbContext.cs
+*********************************
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -91,14 +97,17 @@ public class ApplicationDbContext : IdentityDbContext<Models.mpuser>
     {
     }
 }
+*********************************
 
 
 
+*********************************
 
 
 // step 3 get the code gen things
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+*********************************
 
 
 
