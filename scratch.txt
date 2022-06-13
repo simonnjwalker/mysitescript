@@ -46,7 +46,8 @@ cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "    option
 
 dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
 
-
+@echo hit "F5" in VS Code to start debugging
+code .
 
 
 
