@@ -6,11 +6,19 @@ https://docs.microsoft.com/en-us/ef/core/cli/dotnet
 // sitescript
 // to use: have these files in these locations (info below):
 c:\SNJW\code\shared\user.cs
-c:\SNJW\code\shared\ApplicationDbContext.cs
-// then you should copy the code into notepad and search-and-replace "mp" with the name of your new project (e.g. "myproj")
-// then, open up a command window and paste it all in and hit enter
+c:\SNJW\code\shared\replace.vbs
+c:\SNJW\code\shared\replacedq.vbs
 ***************************************************************************************************
-@echo Start the creation of a new deitable identity site called "mp"
+
+@echo off
+@echo // phase 1: 
+@echo // To create a base site with identity: 
+@echo // you should copy the code into notepad and search-and-replace "mp" with the name of your new project (e.g. "myproj")
+@echo // then, open up a command window and paste it all in and hit enter
+@echo ***************************************************************************************************
+@echo on
+@echo Starting the creation of a new editable identity site called "mp"
+
 cd c:\SNJW\code
 rd mp /S /Q
 dotnet new mvc --auth Individual --name mp
@@ -54,8 +62,35 @@ dotnet aspnet-codegenerator controller --controllerName country -dc HospitalCont
 code .
 
 
-***************************************************************************************************
 
+
+
+
+@echo off
+@echo ***************************************************************************************************
+@echo // phase 2: 
+@echo // To add nice bootstrap5 html to your site:  
+@echo // you should copy the code into notepad and search-and-replace "mp" with the name of your new project (e.g. "myproj")
+@echo // then, open up a command window and paste it all in and hit enter
+@echo ***************************************************************************************************
+@echo on
+
+
+
+
+
+
+@echo Adding HTML to the site
+
+cd c:\SNJW\code\mp
+git clone https://github.com/simonnjwalker/demohtml.git
+xcopy demohtml\assets wwwroot\assets /e /s /y
+xcopy demohtml\index.html wwwroot /e /s /y
+rd demohtml /S /Q
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
+cscript c:\SNJW\code\shared\replacedq.vbs "C:\SNJW\code\mp\Controllers\HomeController.cs" "|"
+
+@echo Finished adding HTML to the site
 
 
 *********************************
@@ -81,7 +116,7 @@ code .
 
 *********************************
 step 1:
-create this model as: 
+create this file as: 
 c:\SNJW\code\shared\user.cs
 *********************************
 using System.ComponentModel.DataAnnotations.Schema;
@@ -95,13 +130,54 @@ public class xxuser : Microsoft.AspNetCore.Identity.IdentityUser
 }
 *********************************
 
-
 *********************************
 step 2:
+create this file as: 
+c:\SNJW\code\shared\replacedq.vbs
+*********************************
+Const ForReading = 1
+Const ForWriting = 2
+strFileName = Wscript.Arguments(0)
+strOldText = Wscript.Arguments(1)
+strNewText = Chr(34)
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objFile = objFSO.OpenTextFile(strFileName, ForReading)
+strText = objFile.ReadAll
+objFile.Close
+strNewText = Replace(strText, strOldText, strNewText)
+Set objFile = objFSO.OpenTextFile(strFileName, ForWriting)
+objFile.Write strNewText
+objFile.Close
+*********************************
+
+*********************************
+step 3:
+create this file as: 
+c:\SNJW\code\shared\replace.vbs
+*********************************
+Const ForReading = 1
+Const ForWriting = 2
+
+strFileName = Wscript.Arguments(0)
+strOldText = Wscript.Arguments(1)
+strNewText = Wscript.Arguments(2)
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objFile = objFSO.OpenTextFile(strFileName, ForReading)
+
+strText = objFile.ReadAll
+objFile.Close
+strNewText = Replace(strText, strOldText, strNewText)
+
+Set objFile = objFSO.OpenTextFile(strFileName, ForWriting)
+objFile.Write strNewText
+objFile.Close
+*********************************
+
+DEPRECATED:
 edit the file in:
 c:\SNJW\code\mp\Data\ApplicationDbContext.cs
 *********************************
-
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace xx.Data;
@@ -113,8 +189,6 @@ public class ApplicationDbContext : IdentityDbContext<Models.mpuser>
     }
 }
 *********************************
-
-
 
 *********************************
 
