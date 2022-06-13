@@ -3,11 +3,14 @@ https://docs.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-id
 https://docs.microsoft.com/en-us/ef/core/cli/dotnet
 
 *********************************
-myscript
-to use: have these files in these locations (info below):
+// sitescript
+// to use: have these files in these locations (info below):
 c:\SNJW\code\shared\user.cs
 c:\SNJW\code\shared\ApplicationDbContext.cs
-*********************************
+// then you should copy the code into notepad and search-and-replace "mp" with the name of your new project (e.g. "myproj")
+// then, open up a command window and paste it all in and hit enter
+***************************************************************************************************
+@echo Start the creation of a new deitable identity site called "mp"
 cd c:\SNJW\code
 rd mp /S /Q
 dotnet new mvc --auth Individual --name mp
@@ -15,7 +18,7 @@ cd mp
 dotnet build
 xcopy c:\SNJW\code\shared\user.cs c:\SNJW\code\mp\Models /E /Y /H /R
 rename c:\SNJW\code\mp\Models\user.cs mpuser.cs
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Models\user.cs" "xx" "mp"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Models\mpuser.cs" "xx" "mp"
 
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
@@ -45,8 +48,13 @@ cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "    option
 
 dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
 
-@echo hit "F5" in VS Code to start debugging
+@echo hit "F5" in VS Code to INSTALL THE MISSING DEBUG FILES
+@echo 
+@echo Note that you will need to CLOSE VS Codeand then re-open it before you hit "F5" !!
 code .
+
+
+***************************************************************************************************
 
 
 
