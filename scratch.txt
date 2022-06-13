@@ -48,9 +48,9 @@ cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "    option
 
 dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
 
-@echo hit "F5" in VS Code to INSTALL THE MISSING DEBUG FILES
+@echo hit {enter} to open VS Code now and wait until it asks you to install missing files - hit yes then close VS Code
 @echo 
-@echo Note that you will need to CLOSE VS Codeand then re-open it before you hit "F5" !!
+@echo You will need to re-open it before you hit "F5" to build
 code .
 
 
