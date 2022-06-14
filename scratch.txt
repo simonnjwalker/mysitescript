@@ -100,6 +100,27 @@ Prerequisites
 first check that all of the stuff is installed:
 dotnet tool install -g dotnet-aspnet-codegenerator
 dotnet tool install --global dotnet-ef
+*********************************
+second step is to download our demos
+*********************************
+
+@echo Add shared files
+md c:\SNJW
+md c:\SNJW\code
+md c:\SNJW\code\shared
+cd c:\SNJW\code
+rd pubscripts /S /Q
+git clone https://github.com/simonnjwalker/pubscripts.git
+xcopy pubscripts\user.cs c:\SNJW\code\shared /e /s /y
+xcopy pubscripts\replace.vbs c:\SNJW\code\shared /e /s /y
+xcopy pubscripts\replacedq.vbs c:\SNJW\code\shared /e /s /y
+rd pubscripts /S /Q
+
+
+
+
+
+
 
 
 // step 2 build a new project
