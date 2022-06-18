@@ -67,6 +67,12 @@ cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Ac
 cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 
 
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc;" "// using Microsoft.AspNetCore.Mvc;"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc.RazorPages;" "// using Microsoft.AspNetCore.Mvc.RazorPages;"
+
+
+
+
 C:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs
 
 del c:\SNJW\code\xj\Program.cs /Q
