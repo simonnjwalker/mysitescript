@@ -1,63 +1,98 @@
-https://dev.to/piaomu/scaffold-identity-pages-with-asp-net-core-dear-coder-1e88
-https://docs.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-6.0&tabs=netcore-cli
-https://docs.microsoft.com/en-us/ef/core/cli/dotnet
 
-*********************************
-// sitescript
-// to use: have these files in these locations (info below):
-c:\SNJW\code\shared\user.cs
-c:\SNJW\code\shared\replace.vbs
-c:\SNJW\code\shared\replacedq.vbs
-***************************************************************************************************
 
-@echo off
-@echo // phase 1: 
-@echo // To create a base site with identity: 
-@echo // you should copy the code into notepad and search-and-replace "mp" with the name of your new project (e.g. "myproj")
-@echo // then, open up a command window and paste it all in and hit enter
-@echo ***************************************************************************************************
-@echo on
-@echo Starting the creation of a new editable identity site called "mp"
+
 
 cd c:\SNJW\code
-rd mp /S /Q
-dotnet new mvc --auth Individual --name mp
-cd mp
+rd xj /S /Q
+dotnet new mvc --auth Individual --name xj
+cd xj
 dotnet build
-xcopy c:\SNJW\code\shared\user.cs c:\SNJW\code\mp\Models /E /Y /H /R
-rename c:\SNJW\code\mp\Models\user.cs mpuser.cs
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Models\mpuser.cs" "xx" "mp"
+xcopy c:\SNJW\code\shared\user.cs c:\SNJW\code\xj\Models /E /Y /H /R
+rename c:\SNJW\code\xj\Models\user.cs xjuser.cs
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Models\xjuser.cs" "xx" "xj"
 
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-dotnet aspnet-codegenerator identity -dc xw.Data.ApplicationDbContext -sqlite -–files Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.ConfirmEmailChange;Account.ExternalLogin;Account.ForgotPassword;Account.ForgotPasswordConfirmation;Account.Lockout;Account.Login;Account.LoginWith2fa;Account.LoginWithRecoveryCode;Account.Logout;Account.Manage._Layout;Account.Manage._ManageNav;Account.Manage._StatusMessage;Account.Manage.ChangePassword;Account.Manage.DeletePersonalData;Account.Manage.Disable2fa;Account.Manage.DownloadPersonalData;Account.Manage.Email;Account.Manage.EnableAuthenticator;Account.Manage.ExternalLogins;Account.Manage.GenerateRecoveryCodes;Account.Manage.Index;Account.Manage.PersonalData;Account.Manage.ResetAuthenticator;Account.Manage.SetPassword;Account.Manage.ShowRecoveryCodes;Account.Manage.TwoFactorAuthentication;Account.Register;Account.RegisterConfirmation;Account.ResendEmailConfirmation;Account.ResetPassword;Account.ResetPasswordConfirmation
-@echo dotnet aspnet-codegenerator identity
-@echo dotnet aspnet-codegenerator identity -dc MyApp.Data.ApplicationDbContext --files "$(dotnet aspnet-codegenerator identity -dc MyApp.Data.ApplicationDbContext --listFiles | grep "Account.*" | tr '\n' ';')"
+xcopy c:\SNJW\code\xj\Program.cs c:\SNJW\code\xj\Areas /Y /H /R
+ren c:\SNJW\code\xj\Areas\Program.cs Program.cs.txt
+
+dotnet aspnet-codegenerator identity -dc xj.Data.ApplicationDbContext -sqlite
+
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Program.cs.txt" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<xj.Models.xjuser>"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Data\ApplicationDbContext.cs" "public class ApplicationDbContext : IdentityDbContext" "public class ApplicationDbContext : IdentityDbContext<Models.xjuser>"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<xj.Models.xjuser>"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\xj.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
 
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<mp.Models.mpuser>"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Data\ApplicationDbContext.cs" "public class ApplicationDbContext : IdentityDbContext" "public class ApplicationDbContext : IdentityDbContext<Models.mpuser>"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<mp.Models.mpuser>"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\mp.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
+
+
+
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ExternalLogin.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Login.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Logout.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Register.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Email.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Index.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cs" "IdentityUser" "xj.Models.xjuser"
+
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+
+
+C:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs
+
+del c:\SNJW\code\xj\Program.cs /Q
+xcopy c:\SNJW\code\xj\Areas\Program.cs.txt c:\SNJW\code\xj /Y /H /R
+ren c:\SNJW\code\xj\Program.cs.txt Program.cs
+
+
 dotnet build
 dotnet ef migrations add SecondMigration
 dotnet build
 dotnet ef database update
 
-dotnet aspnet-codegenerator controller --controllerName project -dc mp.Data.ApplicationDbContext --useSqlite --model project
-
+dotnet aspnet-codegenerator controller --controllerName project -dc xj.Data.ApplicationDbContext --useSqlite --model project
 
 
 
 dotnet ef migrations script
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\mp\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
+cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
 
 
 
 dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
+
 
 @echo hit {enter} to open VS Code now and wait until it asks you to install missing files - hit yes then close VS Code
 @echo 
@@ -67,31 +102,15 @@ code .
 
 
 
-
-
-@echo off
-@echo ***************************************************************************************************
-@echo // phase 2: 
-@echo // To add nice bootstrap5 html to your site:  
-@echo // you should copy the code into notepad and search-and-replace "mp" with the name of your new project (e.g. "myproj")
-@echo // then, open up a command window and paste it all in and hit enter
-@echo ***************************************************************************************************
-@echo on
-
-
-
-
-
-
 @echo Adding HTML to the site
 
-cd c:\SNJW\code\mp
+cd c:\SNJW\code\xj
 git clone https://github.com/simonnjwalker/demohtml.git
 xcopy demohtml\assets wwwroot\assets /e /s /y
 xcopy demohtml\index.html wwwroot /e /s /y
 rd demohtml /S /Q
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\mp\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
-cscript c:\SNJW\code\shared\replacedq.vbs "C:\SNJW\code\mp\Controllers\HomeController.cs" "|"
+cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
+cscript c:\SNJW\code\shared\replacedq.vbs "C:\SNJW\code\xj\Controllers\HomeController.cs" "|"
 
 @echo Finished adding HTML to the site
 
@@ -129,13 +148,13 @@ rd pubscripts /S /Q
 // step 2 build a new project
 
 cd c:\SNJW\code
-dotnet new mvc --auth Individual --name mp
-cd mp
+dotnet new mvc --auth Individual --name xj
+cd xj
 dotnet build
 code .
 
 
-{F5 to execute and follow the prompts to install debuggers.  Then close it with SHIFT+F5}
+{F5 to execute and follow the proxjts to install debuggers.  Then close it with SHIFT+F5}
 
 
 *********************************
@@ -143,7 +162,7 @@ step 1:
 create this file as: 
 c:\SNJW\code\shared\user.cs
 *********************************
-using System.ComponentModel.DataAnnotations.Schema;
+using System.CoxjonentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 namespace xx.Models;
 public class xxuser : Microsoft.AspNetCore.Identity.IdentityUser
@@ -200,12 +219,12 @@ objFile.Close
 
 DEPRECATED:
 edit the file in:
-c:\SNJW\code\mp\Data\ApplicationDbContext.cs
+c:\SNJW\code\xj\Data\ApplicationDbContext.cs
 *********************************
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace xx.Data;
-public class ApplicationDbContext : IdentityDbContext<Models.mpuser>
+public class ApplicationDbContext : IdentityDbContext<Models.xjuser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -225,9 +244,9 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
 
 
-//dotnet aspnet-codegenerator identity -dc mp.Models.ApplicationDbContext
+//dotnet aspnet-codegenerator identity -dc xj.Models.ApplicationDbContext
 
-If the command completed without errors that should have fixed the “There was an error running the selected code generator” issue and created the necessary Identity Pages under Areas/Identity/Pages.
+If the command coxjleted without errors that should have fixed the “There was an error running the selected code generator” issue and created the necessary Identity Pages under Areas/Identity/Pages.
 
 dotnet aspnet-codegenerator also has the ability to scaffold only specific files versus all the Identity files if you don’t need the full set by passing in the -files parameter followed by the files you want to create.
 
@@ -235,8 +254,7 @@ dotnet aspnet-codegenerator also has the ability to scaffold only specific files
 // step 4 scaffold the identity pages
 
 
-dotnet aspnet-codegenerator identity -dc mp.Data.ApplicationDbContext -–files "Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.ConfirmEmailChange;Account.ExternalLogin;Account.ForgotPassword;Account.ForgotPasswordConfirmation;Account.Lockout;Account.Login;Account.LoginWith2fa;Account.LoginWithRecoveryCode;Account.Logout;Account.Manage._Layout;Account.Manage._ManageNav;Account.Manage._StatusMessage;Account.Manage.ChangePassword;Account.Manage.DeletePersonalData;Account.Manage.Disable2fa;Account.Manage.DownloadPersonalData;Account.Manage.Email;Account.Manage.EnableAuthenticator;Account.Manage.ExternalLogins;Account.Manage.GenerateRecoveryCodes;Account.Manage.Index;Account.Manage.PersonalData;Account.Manage.ResetAuthenticator;Account.Manage.SetPassword;Account.Manage.ShowRecoveryCodes;Account.Manage.TwoFactorAuthentication;Account.Register;Account.RegisterConfirmation;Account.ResendEmailConfirmation;Account.ResetPassword;Account.ResetPasswordConfirmation"
-
+dotnet aspnet-codegenerator identity -dc xj.Data.ApplicationDbContext -–files "Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.ConfirmEmailChange;Account.ExternalLogin;Account.ForgotPassword;Account.ForgotPasswordConfirmation;Account.Lockout;Account.Login;Account.LoginWith2fa;Account.LoginWithRecoveryCode;Account.Logout;Account.Manage._Layout;Account.Manage._ManageNav;Account.Manage._StatusMessage;Account.Manage.ChangePassword;Account.Manage.DeletePersonalData;Account.Manage.Disable2fa;Account.Manage.DownloadPersonalData;Account.Manage.Email;Account.Manage.EnableAuthenticator;Account.Manage.ExternalLogins;Account.Manage.GenerateRecoveryCodes;Account.Manage.Index;Account.Manage.PersonalData;Account.Manage.ResetAuthenticator;Account.Manage.SetPassword;Account.Manage.ShowRecoveryCodes;Account.Manage.TwoFactorAuthentication;Account.Register;Account.RegisterConfirmation;Account.ResendEmailConfirmation;Account.ResetPassword;Account.ResetPasswordConfirmation"
 
 
 
