@@ -1,6 +1,44 @@
 
+@echo *****************************************
+@echo Phase 0: Install all necessary software
+@echo *****************************************
+@echo 
+@echo Necessary things to build this are:
+@echo 
+@echo git from the CLI (tick the credential manager option to avoid annoyance)
+@echo https://github.com/git-for-windows/git/releases/download/v2.36.1.windows.1/Git-2.36.1-64-bit.exe
+@echo 
+@echo dotnet
+@echo https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.301-windows-x64-installer
+@echo 
+@echo dotnet code gen and ef
+@echo dotnet tool install -g dotnet-aspnet-codegenerator
+@echo dotnet tool install --global dotnet-ef
+@echo 
+@echo csgen
+@echo 
+
+@echo Installing csgen in c:\SNJW\code\shared
+cd c:\SNJW\code\shared
+del csgen*.* /Q /F
+rd csgen /S /Q
+git clone https://github.com/simonnjwalker/csgen.git
+cd c:\SNJW\code\shared\csgen
+dotnet build
+cd..
+xcopy c:\SNJW\code\csgen\bin\Debug\net6.0\csgen*.* c:\SNJW\code\shared /Y /H /R
+rd csgen /S /Q
+@echo Finished installing csgen
 
 
+@echo *****************************************
+@echo Phase 1: Build MVC site
+@echo *****************************************
+@echo 
+@echo Creating a new MVC application with Identity and Entity Framework
+@echo 
+@echo This will delete the folder c:\SNJW\code\xj and recreate
+@echo 
 
 cd c:\SNJW\code
 rd xj /S /Q
@@ -99,6 +137,8 @@ cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Program.cs" "    option
 
 dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
 
+@echo Finished creating  new MVC application with Identity and Entity Framework
+
 
 @echo hit {enter} to open VS Code now and wait until it asks you to install missing files - hit yes then close VS Code
 @echo 
@@ -108,8 +148,15 @@ code .
 
 
 
-@echo Adding HTML to the site
 
+@echo *****************************************
+@echo 
+@echo 
+@echo *****************************************
+@echo Phase 2: add HTML
+@echo *****************************************
+@echo 
+@echo Started adding HTML to the site
 cd c:\SNJW\code\xj
 git clone https://github.com/simonnjwalker/demohtml.git
 xcopy demohtml\assets wwwroot\assets /e /s /y
@@ -117,8 +164,8 @@ xcopy demohtml\index.html wwwroot /e /s /y
 rd demohtml /S /Q
 cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
 cscript c:\SNJW\code\shared\replacedq.vbs "C:\SNJW\code\xj\Controllers\HomeController.cs" "|"
-
 @echo Finished adding HTML to the site
+
 
 
 *********************************
@@ -168,7 +215,7 @@ step 1:
 create this file as: 
 c:\SNJW\code\shared\user.cs
 *********************************
-using System.CoxjonentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 namespace xx.Models;
 public class xxuser : Microsoft.AspNetCore.Identity.IdentityUser
