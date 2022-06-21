@@ -47,7 +47,7 @@ cd xj
 dotnet build
 xcopy c:\SNJW\code\shared\user.cs c:\SNJW\code\xj\Models /E /Y /H /R
 rename c:\SNJW\code\xj\Models\user.cs xjuser.cs
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Models\xjuser.cs" "xx" "xj"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Models\xjuser.cs" "xx" "xj"
 
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
@@ -56,57 +56,58 @@ ren c:\SNJW\code\xj\Areas\Program.cs Program.cs.txt
 
 dotnet aspnet-codegenerator identity -dc xj.Data.ApplicationDbContext -sqlite
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Program.cs.txt" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<xj.Models.xjuser>"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Data\ApplicationDbContext.cs" "public class ApplicationDbContext : IdentityDbContext" "public class ApplicationDbContext : IdentityDbContext<Models.xjuser>"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<xj.Models.xjuser>"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\xj.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Program.cs.txt" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<xj.Models.xjuser>"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Data\ApplicationDbContext.cs" "public class ApplicationDbContext : IdentityDbContext" "public class ApplicationDbContext : IdentityDbContext<Models.xjuser>"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<xj.Models.xjuser>"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\xj.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
 
 
 
 
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ExternalLogin.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Login.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Logout.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Register.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Email.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Index.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ExternalLogin.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Login.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Logout.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Register.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Email.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Index.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cs" "IdentityUser" "xj.Models.xjuser"
+
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 
 
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc;" "// using Microsoft.AspNetCore.Mvc;"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc.RazorPages;" "// using Microsoft.AspNetCore.Mvc.RazorPages;"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc;" "// using Microsoft.AspNetCore.Mvc;"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc.RazorPages;" "// using Microsoft.AspNetCore.Mvc.RazorPages;"
 
 
 
@@ -128,10 +129,10 @@ dotnet aspnet-codegenerator controller --controllerName project -dc xj.Data.Appl
 
 
 dotnet ef migrations script
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
 
-cscript c:\SNJW\code\shared\replace.vbs "c:\SNJW\code\xj\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
 
 
 
@@ -162,8 +163,8 @@ git clone https://github.com/simonnjwalker/demohtml.git
 xcopy demohtml\assets wwwroot\assets /e /s /y
 xcopy demohtml\index.html wwwroot /e /s /y
 rd demohtml /S /Q
-cscript c:\SNJW\code\shared\replace.vbs "C:\SNJW\code\xj\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
-cscript c:\SNJW\code\shared\replacedq.vbs "C:\SNJW\code\xj\Controllers\HomeController.cs" "|"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
+c:\SNJW\code\shared\csgen.exe replacewithdq "C:\SNJW\code\xj\Controllers\HomeController.cs" "|"
 @echo Finished adding HTML to the site
 
 
@@ -314,3 +315,5 @@ dotnet aspnet-codegenerator identity -dc xj.Data.ApplicationDbContext -–files 
 
 dotnet ef migrations add CreateIdentitySchema
 dotnet ef database update
+
+
