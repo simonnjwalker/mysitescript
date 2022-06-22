@@ -83,17 +83,6 @@ c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Acco
 c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cs" "IdentityUser" "xj.Models.xjuser"
-
 c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
 c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
