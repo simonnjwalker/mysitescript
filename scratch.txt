@@ -18,17 +18,66 @@
 @echo csgen
 @echo 
 
+ 
+@echo *****************************************
+@echo Step 1: Install csgen
+@echo *****************************************
+
+
 @echo Installing csgen in c:\SNJW\code\shared
 cd c:\SNJW\code\shared
-del csgen*.* /Q /F
+del csgen.* /Q /F
 rd csgen /S /Q
 git clone https://github.com/simonnjwalker/csgen.git
 cd c:\SNJW\code\shared\csgen
 dotnet build
 cd..
-xcopy c:\SNJW\code\csgen\bin\Debug\net6.0\csgen*.* c:\SNJW\code\shared /Y /H /R
+xcopy c:\SNJW\code\shared\csgen\bin\Debug\net6.0\csgen.* c:\SNJW\code\shared /Y /H /R
 rd csgen /S /Q
 @echo Finished installing csgen
+
+
+
+@echo *****************************************
+@echo Step 2: Download pubscripts
+@echo *****************************************
+
+
+@echo Installing shared files in c:\SNJW\code\shared
+cd c:\SNJW\code\shared
+git clone https://github.com/simonnjwalker/pubscripts.git
+xcopy c:\SNJW\code\shared\pubscripts\User.cs c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\Project.cs c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\contact.cs c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\Contact.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\Privacy.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_ClientPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_FooterPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_Layout.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_LoginPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MenuPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_forms.js c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_index.html c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_layout.js c:\SNJW\code\shared /E /Y /H /R
+
+xcopy c:\SNJW\code\shared\pubscripts\bootstrap.min.css c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\bootstrap.min.css.map c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\bootstrap.min.js c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\bootstrap.min.js.map c:\SNJW\code\shared /E /Y /H /R
+
+
+xcopy c:\SNJW\code\shared\pubscripts\_MainHeadPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MainStylesPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MainPreloadPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MainHeaderPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MainClientPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MainFooterPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\pubscripts\_MainScriptsPartial.cshtml c:\SNJW\code\shared /E /Y /H /R
+
+rd pubscripts /S /Q
+@echo Finished installing shared files in c:\SNJW\code\shared
+
+
 
 
 @echo *****************************************
@@ -37,95 +86,333 @@ rd csgen /S /Q
 @echo 
 @echo Creating a new MVC application with Identity and Entity Framework
 @echo 
-@echo This will delete the folder c:\SNJW\code\xj and recreate
+@echo This will delete the folder c:\SNJW\code\xp and recreate
 @echo 
 
 cd c:\SNJW\code
-rd xj /S /Q
-dotnet new mvc --auth Individual --name xj
-cd xj
+rd xp /S /Q
+dotnet new mvc --auth Individual --name xp
+cd xp
 dotnet build
-xcopy c:\SNJW\code\shared\user.cs c:\SNJW\code\xj\Models /E /Y /H /R
-rename c:\SNJW\code\xj\Models\user.cs xjuser.cs
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Models\xjuser.cs" "xx" "xj"
+
+md c:\SNJW\code\xp\Areas\Identity\Models
+xcopy c:\SNJW\code\shared\User.cs c:\SNJW\code\xp\Areas\Identity\Models /E /Y /H /R
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Models\User.cs" "xx" "xp"
 
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-xcopy c:\SNJW\code\xj\Program.cs c:\SNJW\code\xj\Areas /Y /H /R
-ren c:\SNJW\code\xj\Areas\Program.cs Program.cs.txt
+xcopy c:\SNJW\code\xp\Program.cs c:\SNJW\code\xp\Areas /Y /H /R
+ren c:\SNJW\code\xp\Areas\Program.cs Program.cs.txt
 
-dotnet aspnet-codegenerator identity -dc xj.Data.ApplicationDbContext -sqlite
-
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Program.cs.txt" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<xj.Models.xjuser>"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Data\ApplicationDbContext.cs" "public class ApplicationDbContext : IdentityDbContext" "public class ApplicationDbContext : IdentityDbContext<Models.xjuser>"
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<xj.Models.xjuser>"
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\xj.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
+dotnet aspnet-codegenerator identity -dc xp.Data.ApplicationDbContext -sqlite
 
 
+@echo Modify the base Identity files to use our custom Model
 
 
-
-
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ExternalLogin.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Login.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Logout.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Register.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Email.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Index.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.cs" "IdentityUser" "xj.Models.xjuser"
-
-
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc;" "// using Microsoft.AspNetCore.Mvc;"
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc.RazorPages;" "// using Microsoft.AspNetCore.Mvc.RazorPages;"
+cd c:\SNJW\code\xp\Areas\Identity
+rd Data /S /Q
+cd c:\SNJW\code\xp
 
 
 
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Program.cs.txt" "builder.Services.AddDefaultIdentity<IdentityUser>" "builder.Services.AddDefaultIdentity<xp.Areas.Identity.Models.User>"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Data\ApplicationDbContext.cs" "public class ApplicationDbContext : IdentityDbContext" "public class ApplicationDbContext : IdentityDbContext<xp.Areas.Identity.Models.User>"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\Views\Shared\_LoginPartial.cshtml" "<IdentityUser>" "<xp.Areas.Identity.Models.User>"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\xp.csproj" "<Nullable>enable</Nullable>" "<Nullable>disable</Nullable>"
 
-C:\SNJW\code\xj\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs
 
-del c:\SNJW\code\xj\Program.cs /Q
-xcopy c:\SNJW\code\xj\Areas\Program.cs.txt c:\SNJW\code\xj /Y /H /R
-ren c:\SNJW\code\xj\Program.cs.txt Program.cs
 
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ExternalLogin.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Login.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Logout.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Register.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\Email.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\Index.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\ResetAuthenticator.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\Disable2fa.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\GenerateRecoveryCodes.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.cs" "IdentityUser" "xp.Areas.Identity.Models.User"
+
+
+
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ExternalLogin.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ForgotPassword.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Login.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\LoginWith2fa.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Register.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\ResetPassword.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\Email.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\Index.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml" "_ValidationScriptsPartial" "_MainScriptsPartial"
+
+
+
+Areas\Identity\Pages\Account\ExternalLogin.cshtml:
+Areas\Identity\Pages\Account\ForgotPassword.cshtml:
+Areas\Identity\Pages\Account\LoginWith2fa.cshtml:
+Areas\Identity\Pages\Account\LoginWithRecoveryCode.cshtml:
+Areas\Identity\Pages\Account\Register.cshtml:
+Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml:
+Areas\Identity\Pages\Account\ResetPassword.cshtml:
+Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml:
+Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml:
+Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml:
+Areas\Identity\Pages\Account\Manage\Email.cshtml:
+Areas\Identity\Pages\Account\Manage\EnableAuthenticator.cshtml:
+Areas\Identity\Pages\Account\Manage\Index.cshtml:
+Areas\Identity\Pages\Account\Manage\PersonalData.cshtml:
+Areas\Identity\Pages\Account\Manage\SetPassword.cshtml:
+Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml:
+
+
+c:\SNJW\code\shared\csgen.exe replacenth "C:\SNJW\code\xp\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc;" "using Microsoft.AspNetCore.Mvc;" 1
+c:\SNJW\code\shared\csgen.exe replacenth "C:\SNJW\code\xp\Areas\Identity\Pages\Account\LoginWith2fa.cshtml.cs" "using Microsoft.AspNetCore.Mvc.RazorPages;" "using Microsoft.AspNetCore.Mvc.RazorPages;" 1
+
+c:\SNJW\code\shared\csgen.exe insert "c:\SNJW\code\xp\Models\ErrorViewModel.cs" "#pragma warning disable CS8632" 3
+
+@echo C:\SNJW\code\xp\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs
+
+del c:\SNJW\code\xp\Program.cs /Q
+xcopy c:\SNJW\code\xp\Areas\Program.cs.txt c:\SNJW\code\xp /Y /H /R
+ren c:\SNJW\code\xp\Program.cs.txt Program.cs
+del c:\SNJW\code\xp\Areas\Program.cs.txt /Q
+
+@echo Perform another migration to update the database
 
 dotnet build
 dotnet ef migrations add SecondMigration
 dotnet build
 dotnet ef database update
 
-dotnet aspnet-codegenerator controller --controllerName project -dc xj.Data.ApplicationDbContext --useSqlite --model project
+
+@echo Each part of the application will have a separate area 
+@echo Areas have their own Data/Controller/View/Model subfolders
+@echo 
+@echo Create the top-level 'Start' Area
+cd c:\SNJW\code\xp
+dotnet-aspnet-codegenerator area Start
+md c:\SNJW\code\xp\Areas\Start\Models\facade
+md c:\SNJW\code\xp\Areas\Start\Models\vm
+md c:\SNJW\code\xp\Areas\Start\Models\logic
+md c:\SNJW\code\xp\Areas\Start\Data\context
+@echo 
+@echo Create the 'Election' Area
+cd c:\SNJW\code\xp
+dotnet-aspnet-codegenerator area Election
+md c:\SNJW\code\xp\Areas\Election\Models\facade
+md c:\SNJW\code\xp\Areas\Election\Models\vm
+md c:\SNJW\code\xp\Areas\Election\Models\data
+md c:\SNJW\code\xp\Areas\Election\Models\logic
+md c:\SNJW\code\xp\Areas\Election\Data\context
+
+@echo 
+@echo Change the ControllerRoutes in the main file to allow for the Areas
+c:\SNJW\code\shared\csgen.exe replace C:\SNJW\code\xp\Program.cs "app.MapControllerRoute(" "// app.MapControllerRoute("
+c:\SNJW\code\shared\csgen.exe replace C:\SNJW\code\xp\Program.cs "    name: " "//     name: "
+c:\SNJW\code\shared\csgen.exe replace C:\SNJW\code\xp\Program.cs "    pattern: " "//     pattern: "
+c:\SNJW\code\shared\csgen.exe replace C:\SNJW\code\xp\Program.cs "app.MapRazorPages();" ""
+c:\SNJW\code\shared\csgen.exe replace C:\SNJW\code\xp\Program.cs "app.Run();" ""
+
+
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Program.cs "app.MapAreaControllerRoute(name:|ed|,areaName:|Start|,pattern:|ed/{controller=Home}/{action=Index}/{id?}|);"
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Program.cs "app.MapAreaControllerRoute(name:|en|,areaName:|Election|,pattern:|en/{controller=Home}/{action=Index}/{id?}|);"
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Program.cs "app.MapControllerRoute(name:|default|,pattern:|ed/{controller=Home}/{action=Index}/{id?}|);"
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Program.cs "app.MapRazorPages();"
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Program.cs "app.Run();"
+c:\SNJW\code\shared\csgen.exe replacewithdq C:\SNJW\code\xp\Program.cs "|"
+
+@echo 
+@echo Create some Model files in each Area
+
+md c:\SNJW\code\xp\Areas\Election\Models\facade
+md c:\SNJW\code\xp\Areas\Election\Models\vm
+md 
+md c:\SNJW\code\xp\Areas\Election\Models\logic
+
+c:\SNJW\code\shared\csgen.exe model --mname Election --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\data\Election.cs --mpkey ElectionId --mfkey ElectionAgentId --mparent User
+
+c:\SNJW\code\shared\csgen.exe model --mname Ballot --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\data\Ballot.cs --mpkey BallotId --mfkey BallotElectionId --mparent Election
+
+c:\SNJW\code\shared\csgen.exe model --mname Choice --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\data\Choice.cs --mpkey ChoiceId --mfkey ChoiceBallotId --mparent Ballot
+
+c:\SNJW\code\shared\csgen.exe vm --vname election --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\vm\election.cs --vpkey id --vfkey userid --vuserkey userid  --vmessage message
+
+c:\SNJW\code\shared\csgen.exe vm --vname ballot --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\vm\ballot.cs --vpkey id --vfkey electionid --vuserkey userid --vmessage message
+
+c:\SNJW\code\shared\csgen.exe vm --vname choice --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\vm\choice.cs --vpkey id --vfkey ballotid --vuserkey userid --vmessage message
+
+c:\SNJW\code\shared\csgen.exe vm --vname user --source "C:\SNJW\code\scriptloader\scriptloader-election.csv" --output c:\SNJW\code\xp\Areas\Election\Models\vm\user.cs --vpkey id --vfkey userid --vuserkey userid --vmessage message
+
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\Areas\Election\Models\data\Election.cs" "public User User" "public xp.Areas.Identity.Models.User User"
 
 
 
-dotnet ef migrations script
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
 
-c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xj\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
+@echo dotnet ef migrations script
+dotnet aspnet-codegenerator controller --controllerName ElectionController -dc xp.Data.ApplicationDbContext --useSqlite --model Election -async --noViews
+dotnet aspnet-codegenerator controller --controllerName BallotController -dc xp.Data.ApplicationDbContext --useSqlite --model Ballot -async --noViews
+dotnet aspnet-codegenerator controller --controllerName ChoiceController -dc xp.Data.ApplicationDbContext --useSqlite --model Choice -async --noViews
+
+dotnet build
+dotnet ef migrations add FourthMigration
+dotnet build
+dotnet ef database update
 
 
 
-dotnet aspnet-codegenerator controller --controllerName country -dc HospitalContext --useSqlite --model countryvm
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
+
+
+
+
+
+
+
+@echo ***************************************************************************
+
+
+dotnet build
+dotnet ef migrations add FifthMigration
+dotnet build
+dotnet ef database update
+
+
+
+
+
+xcopy c:\SNJW\code\shared\Project.cs c:\SNJW\code\xp\Areas\Project\Models /E /Y /H /R
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Areas\Project\Models\Project.cs" "xx" "xp"
+
+
+dotnet aspnet-codegenerator controller --controllerName ProjectController -dc xp.Data.ApplicationDbContext --useSqlite --model xp.Areas.Project.Models.Project --relativeFolderPath \Areas
+
+
+@echo dotnet ef migrations script
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\appsettings.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xp\appsettings.Development.json" "DataSource=app.db;Cache=Shared" "Data Source=app.db"
+c:\SNJW\code\shared\csgen.exe replace "c:\SNJW\code\xp\Program.cs" "    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>" ""
+
+dotnet aspnet-codegenerator controller --controllerName ElectionController -dc xp.Data.ApplicationDbContext --useSqlite --model vmelection
+
+c:\SNJW\code\shared\csgen.exe replace c:\SNJW\code\xp\ElectionController.cs "return View();" "return View(~/Areas/Election/Views/Create.cshtml~);"
+c:\SNJW\code\shared\csgen.exe replacewithdq c:\SNJW\code\xp\ElectionController.cs "~"
+
+
+
+@echo Create a sample viewmodel
+c:\SNJW\code\shared\csgen.exe vm -n vmelection -o c:\SNJW\code\xp\Models\vmelection.cs -f id,userid,code,name
+
+
+@echo Copy the web assets into the correct hosted folders
+
+md C:\SNJW\code\xp\wwwroot\assets
+md C:\SNJW\code\xp\wwwroot\assets\js
+md C:\SNJW\code\xp\wwwroot\assets\css
+md C:\SNJW\code\xp\wwwroot\assets\fonts
+md C:\SNJW\code\xp\wwwroot\assets\img
+
+ren C:\SNJW\code\xp\Views\Shared\_Layout.cshtml _Layout.cshtml.txt
+ren C:\SNJW\code\xp\Views\Shared\_Layout.cshtml.css _Layout.cshtml.css.txt
+ren C:\SNJW\code\xp\Views\Shared\_LoginPartial.cshtml _LoginPartial.txt
+ren C:\SNJW\code\xp\Views\Shared\_ValidationScriptsPartial.cshtml _ValidationScriptsPartial.cshtml.txt
+
+xcopy c:\SNJW\code\shared\_ClientPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_FooterPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_Layout.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_LoginPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MenuPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_forms.js C:\SNJW\code\xp\wwwroot\assets\js /E /Y /H /R
+xcopy c:\SNJW\code\shared\_index.html c:\SNJW\code\xp /E /Y /H /R
+xcopy c:\SNJW\code\shared\_layout.js C:\SNJW\code\xp\wwwroot\assets\js /E /Y /H /R
+
+xcopy c:\SNJW\code\shared\bootstrap.min.css C:\SNJW\code\xp\wwwroot\assets\css /E /Y /H /R
+xcopy c:\SNJW\code\shared\bootstrap.min.css.map C:\SNJW\code\xp\wwwroot\assets\css /E /Y /H /R
+xcopy c:\SNJW\code\shared\bootstrap.min.js C:\SNJW\code\xp\wwwroot\assets\js /E /Y /H /R
+xcopy c:\SNJW\code\shared\bootstrap.min.js.map C:\SNJW\code\xp\wwwroot\assets\js /E /Y /H /R
+
+
+xcopy c:\SNJW\code\shared\_MainHeadPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MainStylesPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MainPreloadPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MainHeaderPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MainClientPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MainFooterPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+xcopy c:\SNJW\code\shared\_MainScriptsPartial.cshtml C:\SNJW\code\xp\Views\Shared /E /Y /H /R
+
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Views\Shared\_MainHeaderPartial.cshtml "@inject UserManager<xp.Areas.Identity.Models.User> UserManager" 1
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Views\Shared\_MainHeaderPartial.cshtml "@inject SignInManager<xp.Areas.Identity.Models.User> SignInManager" 1
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Views\Shared\_MainHeaderPartial.cshtml "@using Microsoft.AspNetCore.Identity" 1
+
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Views\Shared\_LoginPartial.cshtml "@inject UserManager<xp.Areas.Identity.Models.User> UserManager" 1
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Views\Shared\_LoginPartial.cshtml "@inject SignInManager<xp.Areas.Identity.Models.User> SignInManager" 1
+c:\SNJW\code\shared\csgen.exe insert C:\SNJW\code\xp\Views\Shared\_LoginPartial.cshtml "@using Microsoft.AspNetCore.Identity" 1
+
+
+md c:\SNJW\code\xp\Models\facade
+md c:\SNJW\code\xp\Models\data
+
+c:\SNJW\code\shared\csgen.exe model --mname Model --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\data\Model.cs --mpkey ModelId --mfkey ModelAgentId --mftable AspNetUsers
+c:\SNJW\code\shared\csgen.exe model --mname Subject --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\data\Subject.cs --mpkey SubjectId --mfkey SubjectModelId --mftable Model
+c:\SNJW\code\shared\csgen.exe model --mname Topic --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\data\Topic.cs --mpkey TopicId --mfkey TopicSubjectId --mftable Subject
+c:\SNJW\code\shared\csgen.exe model --mname Step --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\data\Step.cs --mpkey StepId --mfkey StepTopicId --mftable Topic
+
+md c:\SNJW\code\xp\Models\vm
+
+c:\SNJW\code\shared\csgen.exe vm --vname model --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\vm\model.cs --vpkey id --vfkey userid --vftable AspNetUsers
+c:\SNJW\code\shared\csgen.exe vm --vname subject --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\vm\subject.cs --vpkey id --vfkey modelid --vftable Model
+c:\SNJW\code\shared\csgen.exe vm --vname topic --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\vm\topic.cs --vpkey id --vfkey subjectid --vftable Subject
+c:\SNJW\code\shared\csgen.exe vm --vname step --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\vm\step.cs --vpkey id --vfkey topicid --vftable Topic
+
+md c:\SNJW\code\xp\Views\Model
+md c:\SNJW\code\xp\Views\Subject
+md c:\SNJW\code\xp\Views\Topic
+md c:\SNJW\code\xp\Views\Step
+
+c:\SNJW\code\shared\csgen.exe view --wname "Create Model" --waction "Create" --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output outputfile --vname "model" --vfnames "id,code,name,desc,message" --vftypes "string" --vpkey "id" --vfkey "userid" --vftable "AspNetUsers" --vuserkey "userid" --vmessage "message" --wsubmit "Submit" --wsubaction "Create" --wreturn "Index" --wfrmaction "Submit" --winfohead "Create a new Model" --winfotext "Enter the new model details below and click 'Create'" --wlayfiles "_MainHeadPartial.cshtml:_MainStylesPartial.cshtml:_MainPreloadPartial.cshtml:_MainHeaderPartial.cshtml:_MainClientPartial.cshtml:_MainFooterPartial.cshtml:_MainScriptsPartial.cshtml" --wlaynames "Head:Styles:Preload:Header:Client:Footer:Scripts" --wlayout "Layout" --wfdclasses "col-md-6:single-input" --wficlasses ",,lni lni-user,lni lni-phone,lni lni-format,lni lni-comments-alt,lni lni-envelope" --wfclasses "form-input" --fillempty
+
+
+md c:\SNJW\code\xp\Controllers
+
+c:\SNJW\code\shared\csgen.exe controller --cname ModelController --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Controllers\ModelController.cs --cparent Controller --croute Model/Create --ccontext xp.Data.ApplicationDbContext --vpkey id --vfkey userid --vftable AspNetUsers --vuserkey userid --vmessage message  --mpkey id --mfkey userid --mftable AspNetUsers --chttps GET:GET/POST:GET/POST:GET/POST:GET --cactnames Index:Create:Edit:Delete:Details --cacttypes Index:Create:Edit:Delete:Details --cvnames model --cmnames Model --cwnames Index:Create:Edit:Delete:Details --cvpkeys id --cvfkeys userid --cmpkeys ModelId --cmfkeys ModelUserId --cmparents AspNetUsers --cvukeys userid --cvmsgs message --fillempty
+
+
+c:\SNJW\code\shared\csgen.exe model --mname Subject --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output c:\SNJW\code\xp\Models\data\Subject.cs --mpkey SubjectId --mfkey SubjectModelId --mftable Model --mnamespace xp.Models.data
+
+dotnet aspnet-codegenerator controller --controllerName SubjectController -dc xp.Data.ApplicationDbContext --useSqlite --model xp.Models.data.Subject
+
+
+
+c:\SNJW\code\shared\csgen.exe view --source "C:\SNJW\code\scriptloader\scriptloader-small.csv" --output C:\SNJW\code\xp\Areas\Election\Views\Create.cshtml --vname election --vpkey id --vfkey userid --vnamespace xp.Models.data --wname "Create Election" --waction Create
+
+
 
 @echo Finished creating  new MVC application with Identity and Entity Framework
 
@@ -136,173 +423,15 @@ dotnet aspnet-codegenerator controller --controllerName country -dc HospitalCont
 code .
 
 
-
-
-
-@echo *****************************************
-@echo 
-@echo 
-@echo *****************************************
-@echo Phase 2: add HTML
-@echo *****************************************
-@echo 
-@echo Started adding HTML to the site
-cd c:\SNJW\code\xj
+cd c:\SNJW\code\xp
 git clone https://github.com/simonnjwalker/demohtml.git
 xcopy demohtml\assets wwwroot\assets /e /s /y
 xcopy demohtml\index.html wwwroot /e /s /y
 rd demohtml /S /Q
-c:\SNJW\code\shared\csgen.exe replace "C:\SNJW\code\xj\Controllers\HomeController.cs" "return View();" "return Redirect(|index.html|);"
-c:\SNJW\code\shared\csgen.exe replacewithdq "C:\SNJW\code\xj\Controllers\HomeController.cs" "|"
-@echo Finished adding HTML to the site
+c:\SNJW\code\shared\csgen.exe replacenth "C:\SNJW\code\xp\Controllers\HomeController.cs" "return View();" "return Redirect(~index.html~);" 1
+c:\SNJW\code\shared\csgen.exe replacewithdq "C:\SNJW\code\xp\Controllers\HomeController.cs" "~"
 
 
 
-*********************************
-Prerequisites
-*********************************
-
-first check that all of the stuff is installed:
-dotnet tool install -g dotnet-aspnet-codegenerator
-dotnet tool install --global dotnet-ef
-*********************************
-second step is to download our demos
-*********************************
-
-@echo Add shared files
-md c:\SNJW
-md c:\SNJW\code
-md c:\SNJW\code\shared
-cd c:\SNJW\code
-rd pubscripts /S /Q
-git clone https://github.com/simonnjwalker/pubscripts.git
-xcopy pubscripts\user.cs c:\SNJW\code\shared /e /s /y
-xcopy pubscripts\replace.vbs c:\SNJW\code\shared /e /s /y
-xcopy pubscripts\replacedq.vbs c:\SNJW\code\shared /e /s /y
-rd pubscripts /S /Q
-
-
-
-
-
-
-
-
-// step 2 build a new project
-
-cd c:\SNJW\code
-dotnet new mvc --auth Individual --name xj
-cd xj
-dotnet build
-code .
-
-
-{F5 to execute and follow the proxjts to install debuggers.  Then close it with SHIFT+F5}
-
-
-*********************************
-step 1:
-create this file as: 
-c:\SNJW\code\shared\user.cs
-*********************************
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
-namespace xx.Models;
-public class xxuser : Microsoft.AspNetCore.Identity.IdentityUser
-{
-
-        public string FirstName = "";
-        public string LastName = "";
-}
-*********************************
-
-*********************************
-step 2:
-create this file as: 
-c:\SNJW\code\shared\replacedq.vbs
-*********************************
-Const ForReading = 1
-Const ForWriting = 2
-strFileName = Wscript.Arguments(0)
-strOldText = Wscript.Arguments(1)
-strNewText = Chr(34)
-Set objFSO = CreateObject("Scripting.FileSystemObject")
-Set objFile = objFSO.OpenTextFile(strFileName, ForReading)
-strText = objFile.ReadAll
-objFile.Close
-strNewText = Replace(strText, strOldText, strNewText)
-Set objFile = objFSO.OpenTextFile(strFileName, ForWriting)
-objFile.Write strNewText
-objFile.Close
-*********************************
-
-*********************************
-step 3:
-create this file as: 
-c:\SNJW\code\shared\replace.vbs
-*********************************
-Const ForReading = 1
-Const ForWriting = 2
-
-strFileName = Wscript.Arguments(0)
-strOldText = Wscript.Arguments(1)
-strNewText = Wscript.Arguments(2)
-
-Set objFSO = CreateObject("Scripting.FileSystemObject")
-Set objFile = objFSO.OpenTextFile(strFileName, ForReading)
-
-strText = objFile.ReadAll
-objFile.Close
-strNewText = Replace(strText, strOldText, strNewText)
-
-Set objFile = objFSO.OpenTextFile(strFileName, ForWriting)
-objFile.Write strNewText
-objFile.Close
-*********************************
-
-DEPRECATED:
-edit the file in:
-c:\SNJW\code\xj\Data\ApplicationDbContext.cs
-*********************************
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-namespace xx.Data;
-public class ApplicationDbContext : IdentityDbContext<Models.xjuser>
-{
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
-}
-*********************************
-
-*********************************
-
-
-// step 3 get the code gen things
-dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-*********************************
-
-
-
-
-//dotnet aspnet-codegenerator identity -dc xj.Models.ApplicationDbContext
-
-If the command coxjleted without errors that should have fixed the “There was an error running the selected code generator” issue and created the necessary Identity Pages under Areas/Identity/Pages.
-
-dotnet aspnet-codegenerator also has the ability to scaffold only specific files versus all the Identity files if you don’t need the full set by passing in the -files parameter followed by the files you want to create.
-
-
-// step 4 scaffold the identity pages
-
-
-dotnet aspnet-codegenerator identity -dc xj.Data.ApplicationDbContext -–files "Account._StatusMessage;Account.AccessDenied;Account.ConfirmEmail;Account.ConfirmEmailChange;Account.ExternalLogin;Account.ForgotPassword;Account.ForgotPasswordConfirmation;Account.Lockout;Account.Login;Account.LoginWith2fa;Account.LoginWithRecoveryCode;Account.Logout;Account.Manage._Layout;Account.Manage._ManageNav;Account.Manage._StatusMessage;Account.Manage.ChangePassword;Account.Manage.DeletePersonalData;Account.Manage.Disable2fa;Account.Manage.DownloadPersonalData;Account.Manage.Email;Account.Manage.EnableAuthenticator;Account.Manage.ExternalLogins;Account.Manage.GenerateRecoveryCodes;Account.Manage.Index;Account.Manage.PersonalData;Account.Manage.ResetAuthenticator;Account.Manage.SetPassword;Account.Manage.ShowRecoveryCodes;Account.Manage.TwoFactorAuthentication;Account.Register;Account.RegisterConfirmation;Account.ResendEmailConfirmation;Account.ResetPassword;Account.ResetPasswordConfirmation"
-
-
-
-
-dotnet ef migrations add CreateIdentitySchema
-dotnet ef database update
 
 
